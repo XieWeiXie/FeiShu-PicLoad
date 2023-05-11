@@ -1,3 +1,4 @@
 .s
 target/*
 config.yaml
+.DS_Store
