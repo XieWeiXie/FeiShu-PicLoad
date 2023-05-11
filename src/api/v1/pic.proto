@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package feishuPicLoad.v1;
+option go_package = "github.com/XieWeiXie/feishuPicLoad/v1;v1";
+
+service PicService {
+  rpc UploadPic(UploadPicReq) returns(UploadPicReply);
+}
+
+message UploadPicReq {
+  string file = 1; // 文件
+  string user_name = 2; // 用户
+  string channel = 3;  // 图床
+  string img_key = 4;
+}
+
+message UploadPicReply {
+  string img = 1;
+  string img_key = 2;
+  string user_name = 3;
+}

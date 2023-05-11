@@ -1,0 +1,9 @@
+feiShu:
+  appId: "***"
+  appSecret: "***"
+  verificationToken: "***"
+  eventEncryptKey: "***"
+aliYun:
+  accessId: "***"
+  accessKey: "***"
+  bucketName: "***"
