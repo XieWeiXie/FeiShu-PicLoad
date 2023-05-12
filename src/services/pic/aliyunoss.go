@@ -26,7 +26,7 @@ func (a AliYunOSSUploader) Upload(f string, bs []byte) (string, error) {
 	bucketS, _ := client.Bucket(a.bucket)
 	v := md5.New()
 	_, _ = io.WriteString(v, f)
-	nf := fmt.Sprintf("%x-%s.jpg", v.Sum(nil), f)
+	nf := fmt.Sprintf("%s.jpg", f)
 	switch a.raw {
 	case true:
 		if err = bucketS.PutObjectFromFile(nf, f); err != nil {
