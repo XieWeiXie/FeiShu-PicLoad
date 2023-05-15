@@ -39,6 +39,12 @@
 </table>
 
 
+<p align='center'>
+    <img src='./imges/midjourney.gif' alt='' width='800'/>
+</p>
+
+<br>
+
 
 - 🍋 简单先行
 > 传图，获取图床地址
