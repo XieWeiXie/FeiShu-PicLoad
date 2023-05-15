@@ -1,4 +1,8 @@
+<p align='center'>
+    <img src='./imges/midjourneyv2.gif' alt='' width='800'/>
+</p>
 
+<br>
 
 <p align='center'>
    飞书 × 对象存储 × 函数计算
@@ -40,7 +44,7 @@
 
 
 <p align='center'>
-    <img src='./imges/midjourney.gif' alt='' width='800'/>
+    <img src='./imges/保你平安.gif' alt='' width='800'/>
 </p>
 
 <br>

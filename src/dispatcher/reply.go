@@ -153,7 +153,7 @@ func ReplyCardMessage(imKey string, remoteUrl string, userId string, userName st
 			[]larkcard.MessageCardActionElement{
 				larkcard.NewMessageCardEmbedButton().
 					Type(larkcard.MessageCardButtonType(larkcard.MessageCardButtonTypePrimary)).
-					Confirm(larkcard.NewMessageCardActionConfirm().Text(larkcard.NewMessageCardPlainText().Content(remoteUrl)).Title(larkcard.NewMessageCardPlainText().Content("🍊 远程地址"))).
+					Confirm(larkcard.NewMessageCardActionConfirm().Text(larkcard.NewMessageCardPlainText().Content(remoteUrl)).Title(larkcard.NewMessageCardPlainText().Content("🍿 远程地址"))).
 					Value(map[string]interface{}{
 						"key": "yes",
 					}).
