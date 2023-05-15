@@ -157,7 +157,7 @@ func ReplyCardMessage(imKey string, remoteUrl string, userId string, userName st
 					Value(map[string]interface{}{
 						"key": "yes",
 					}).
-					Text(larkcard.NewMessageCardPlainText().Content("🍊 Copy").Build()).Build(),
+					Text(larkcard.NewMessageCardPlainText().Content("Copy").Build()).Build(),
 			},
 		).Layout(&layout).Build()
 

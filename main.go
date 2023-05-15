@@ -29,5 +29,6 @@ func main() {
 	client := lark.NewClient(configs.DefaultFeiShuConfig.AppId, configs.DefaultFeiShuConfig.AppSecret)
 	webhook := v1.Group("feiShu")
 	webhook.POST("webhook/event", sdkginext.NewEventHandlerFunc(dispatcher.ReplyMessage(client)))
+	webhook.POST("webhook/card", sdkginext.NewCardActionHandlerFunc(dispatcher.ReplyCardMessageDispatcher(client)))
 	_ = s.Run(":9091")
 }
