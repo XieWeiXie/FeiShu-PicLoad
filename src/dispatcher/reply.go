@@ -78,23 +78,6 @@ func ReplyMessage(client *lark.Client) *dispatcher.EventDispatcher {
 				if err != nil {
 					return err
 				}
-
-				respMessage, err := client.Im.Message.Create(ctx, larkim.NewCreateMessageReqBuilder().
-					ReceiveIdType(larkim.ReceiveIdTypeChatId).
-					Body(larkim.NewCreateMessageReqBodyBuilder().
-						MsgType(larkim.MsgTypeText).
-						ReceiveId(*event.Event.Message.ChatId).
-						Content(larkim.NewTextMsgBuilder().Text(remote.Img).Build()).
-						Build()).
-					Build())
-				if err != nil {
-					return err
-				}
-				if !respMessage.Success() {
-					fmt.Println(respMessage.Code, respMessage.Msg, respMessage.RequestId())
-					return errors.New("发送图片回调错误")
-				}
-
 				req := larkcontact.NewGetUserReqBuilder().
 					UserId(*event.Event.Sender.SenderId.OpenId).
 					UserIdType(`open_id`).
@@ -106,7 +89,7 @@ func ReplyMessage(client *lark.Client) *dispatcher.EventDispatcher {
 					return err
 				}
 				user := respUser.Data.User
-				card := ReplyCardMessage(imageKey, respMessage.Msg, *event.Event.Sender.SenderId.OpenId, *user.Name)
+				card := ReplyCardMessage(imageKey, remote.Img, *event.Event.Sender.SenderId.OpenId, *user.Name)
 				cardContent, _ := card.String()
 				respMessage2, err2 := client.Im.Message.Create(ctx, larkim.NewCreateMessageReqBuilder().
 					ReceiveIdType(larkim.ReceiveIdTypeChatId).
@@ -144,7 +127,7 @@ func ReplyCardMessage(imKey string, remoteUrl string, userId string, userName st
 
 	header := larkcard.NewMessageCardHeader().
 		Template(larkcard.TemplateBlue).
-		Title(larkcard.NewMessageCardPlainText().Content("🍿🍿🍿").Build()).
+		Title(larkcard.NewMessageCardPlainText().Content(fmt.Sprintf("🍿🍿🍿")).Build()).
 		Build()
 
 	hr := larkcard.NewMessageCardHr().Build()
@@ -152,9 +135,18 @@ func ReplyCardMessage(imKey string, remoteUrl string, userId string, userName st
 	image := larkcard.NewMessageCardImage().
 		ImgKey(imKey).
 		Mode(larkcard.MessageCardImageModelFitHorizontal).
-		Alt(larkcard.NewMessageCardPlainText().Content("图床助手@谢伟")).
+		Alt(larkcard.NewMessageCardPlainText().Content("图床助手")).
+		Preview(true).
 		Build()
 
+	divElement := larkcard.NewMessageCardDiv().
+		Fields([]*larkcard.MessageCardField{larkcard.NewMessageCardField().
+			Text(larkcard.NewMessageCardLarkMd().
+				Content(fmt.Sprintf("<at id=\"%s\"> %s </at>", userId, userName)).
+				Build()).
+			IsShort(true).
+			Build()}).
+		Build()
 	var layout larkcard.MessageCardActionLayout = larkcard.MessageCardActionLayoutBisected
 	actions := larkcard.NewMessageCardAction().
 		Actions(
@@ -170,13 +162,13 @@ func ReplyCardMessage(imKey string, remoteUrl string, userId string, userName st
 		).Layout(&layout).Build()
 
 	note := larkcard.NewMessageCardNote().Elements([]larkcard.MessageCardNoteElement{
-		larkcard.NewMessageCardPlainText().Content(fmt.Sprintf("🍊 上传时间 %s \n🍊 来源阿里云存储\n🍊 <at user_id=\"%s\"> %s </at>", time.Now().Format("15:04:05"), userId, userName)).Build(),
+		larkcard.NewMessageCardPlainText().Content(fmt.Sprintf("🍊 上传时间 %s \n🍊 来源阿里云存储\n", time.Now().Format("15:04:05"))).Build(),
 	}).Build()
 
 	messageCard := larkcard.NewMessageCard().
 		Config(cfg).
 		Header(header).
-		Elements([]larkcard.MessageCardElement{image, actions, hr, note}).
+		Elements([]larkcard.MessageCardElement{divElement, image, actions, hr, note}).
 		Build()
 	return messageCard
 }

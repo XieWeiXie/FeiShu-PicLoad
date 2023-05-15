@@ -3,9 +3,9 @@ package dispatcher
 import (
 	"context"
 	"fmt"
-	lark "github.com/larksuite/oapi-sdk-go/v3"
-	larkcontact "github.com/larksuite/oapi-sdk-go/v3/service/contact/v3"
-	larkim "github.com/larksuite/oapi-sdk-go/v3/service/im/v1"
+	"github.com/larksuite/oapi-sdk-go/v3"
+	"github.com/larksuite/oapi-sdk-go/v3/service/contact/v3"
+	"github.com/larksuite/oapi-sdk-go/v3/service/im/v1"
 	"testing"
 )
 
