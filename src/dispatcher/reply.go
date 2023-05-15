@@ -162,7 +162,7 @@ func ReplyCardMessage(imKey string, remoteUrl string, userId string, userName st
 		).Layout(&layout).Build()
 
 	note := larkcard.NewMessageCardNote().Elements([]larkcard.MessageCardNoteElement{
-		larkcard.NewMessageCardPlainText().Content(fmt.Sprintf("🍊 上传时间 %s \n🍊 来源阿里云存储\n", time.Now().Format("15:04:05"))).Build(),
+		larkcard.NewMessageCardPlainText().Content(fmt.Sprintf("🍿 上传时间 %s \n🍿 来源阿里云存储\n", time.Now().Format("15:04:05"))).Build(),
 	}).Build()
 
 	messageCard := larkcard.NewMessageCard().
