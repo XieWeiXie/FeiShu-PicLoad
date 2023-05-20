@@ -15,7 +15,7 @@ RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 
 RUN update-ca-certificates
 
-RUN export GO111MODULE=on && echo go version &&go build -o ${NAME} main.go
+RUN export GO111MODULE=on && echo go version && go build -o ${NAME} main.go
 
 COPY ./${NAME} app/${NAME}
 
