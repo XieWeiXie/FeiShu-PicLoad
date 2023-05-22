@@ -1,23 +1,25 @@
-FROM ubuntu:20.04
+FROM golang:1.20.0 as builder
 
-ARG NAME=FeiShuPicLoad
+ENV GO111MODULE=on \
+    GOPROXY=https://goproxy.cn,direct \
+    CGO_ENABLED=1 \
+    TZ=Asia/Shanghai
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG APP=FeiShuPicLoad
 
-RUN sed -i 's#http://deb.debian.org#https://mirrors.163.com#g' /etc/apt/sources.list
+WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends tzdata ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+COPY go.mod .
+COPY go.sum .
+COPY . .
 
-RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && dpkg-reconfigure --frontend noninteractive tzdata
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /app/target/${APP} main.go && go clean --cache && go clean --modcache
 
-RUN update-ca-certificates
+FROM alpine:latest
 
-RUN export GO111MODULE=on && echo go version && go build -o ${NAME} main.go
+RUN apk update --no-cache && apk add --no-cache ca-certificates tzdata bash
 
-COPY ./${NAME} app/${NAME}
-
-CMD ./${NAME}
-
+WORKDIR /app
+COPY --from=builder /app/target/${APP} /app/${APP}
+EXPOSE 9091
+CMD ["/app/FeiShuPicLoad"]
